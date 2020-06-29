@@ -1,5 +1,12 @@
 package BlackJack;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import BlackJack.Deck.Rank;
 import BlackJack.Deck.Suit;
 
@@ -50,6 +57,10 @@ public class Card {
 		this.up_ = u;
 	}
 	
+	/**
+	 * Generate file path to the card's image
+	 * @return file path
+	 */
 	public String generateFilePath() {
 		String r = "", s = "";
 		switch(this.rank_) {
@@ -75,5 +86,24 @@ public class Card {
 			case DIAMOND : s = "d"; break;
 		}
 		return "Icon/" + r + s + ".gif";
+	}
+	
+	/**
+	 * Return the card's image
+	 * @param f true-front, false-back
+	 * @return card's image
+	 */
+	public BufferedImage getImage(boolean f) {
+		BufferedImage bImg = null;
+		try {
+		    if (f) {
+		    	bImg = ImageIO.read(new File(generateFilePath()));
+		    } else {
+		    	bImg = ImageIO.read(new File("Icon/back01.gif"));	
+		    }
+		} catch (IOException e) {
+		    e.printStackTrace();
+		}
+		return bImg;
 	}
 }

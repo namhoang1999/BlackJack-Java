@@ -42,26 +42,20 @@ public class CardPanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * Generate Jlabel of card image
+	 * @param c Card
+	 * @return Label of the input card
+	 */
 	public JLabel generateCard(Card c) {
 		JLabel lb = new JLabel();
-		lb.setSize(CARD_WIDTH, CARD_HEIGHT);
-		BufferedImage front = null, back = null;
-		try {
-		    front = ImageIO.read(new File(c.generateFilePath()));
-		    back  = ImageIO.read(new File("Icon/back01.gif"));
-		} catch (IOException e) {
-		    e.printStackTrace();
-		}
 		
-		Image fimg = front.getScaledInstance(lb.getWidth(), lb.getHeight(),
-											Image.SCALE_SMOOTH);
-		Image bimg = back.getScaledInstance(lb.getWidth(), lb.getHeight(),
+		lb.setSize(CARD_WIDTH, CARD_HEIGHT);
+		Image bImg = c.getImage(c.isUp()).getScaledInstance(lb.getWidth(), lb.getHeight(),
 		                					Image.SCALE_SMOOTH);
-		if (c.isUp()) {
-			lb.setIcon(new ImageIcon(fimg));
-		} else {
-			lb.setIcon(new ImageIcon(bimg));
-		}
+		ImageIcon icon = new ImageIcon(bImg);
+		lb.setIcon(icon);
+		
 		return lb;
 	}
 }

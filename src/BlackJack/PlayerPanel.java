@@ -18,6 +18,7 @@ public class PlayerPanel extends JPanel {
 	private JButton hitButton, standButton, foldButton;
 	private JPanel buttonPanel, cardPanel, infoPanel;
 	private Players player;
+	
 	/**
 	 * Create the panel. SIZE: 450x320
 	 */
@@ -67,6 +68,9 @@ public class PlayerPanel extends JPanel {
 		standButton.setEnabled(b);
 	}
 	
+	/**
+	 * Draw and redraw the components
+	 */
 	public void draw() {
 		infoPanel.add(new JLabel("Name: " + this.player.getName() + 
 								 ", Balance: " + this.player.getCash() + 

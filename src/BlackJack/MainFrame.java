@@ -98,6 +98,12 @@ public class MainFrame extends JFrame {
 		}
 	}
 
+	/**
+	 * Set GridBagConstraints properties
+	 * @param x x grid
+	 * @param y y grid
+	 * @param w grid width
+	 */
 	private void setGrid(int x, int y, int w) {
 		c.gridx = x;
 		c.gridy = y;
