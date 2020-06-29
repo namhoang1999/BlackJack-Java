@@ -1,0 +1,18 @@
+Card.java : contains methods to create cards, calculate points and constructor of cards.
+Deck.java : contains methods to create a deck with 52 cards(4 Suits and 13 Ranks).
+Players.java : abstract class with mutual methods.
+Dealer.java, Player.java : class contains player and dealer methods to play game and constructor of player and dealer.
+
+Week 1 report: 
+almost done with game console with functions:
+_Add Players
+_Choose Bet
+_Calculating Points
+_Calculating Money
+_Show Cards in Output
+_Compare players's points with dealer's points
+_Return Game's Result
+_Remove Players when he/she ran out of money.
+
+Problem:
+can not actually remove Players in the Array Players[] in Game.java. => set player's cash to -1$ so that he can't play anymore.
