@@ -18,8 +18,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class CardPanel extends JPanel {
-	private static final int CARD_WIDTH = 93;
-	private static final int CARD_HEIGHT = 150;
+	private static final int CARD_WIDTH = 90;
+	private static final int CARD_HEIGHT = 140;
 	private ArrayList<Card> hand = new ArrayList<Card>();
 	
 	/**
@@ -47,8 +47,8 @@ public class CardPanel extends JPanel {
 		lb.setSize(CARD_WIDTH, CARD_HEIGHT);
 		BufferedImage front = null, back = null;
 		try {
-		    front = ImageIO.read(new File("Icon/front.png"));
-		    back  = ImageIO.read(new File("Icon/back.png"));
+		    front = ImageIO.read(new File(c.generateFilePath()));
+		    back  = ImageIO.read(new File("Icon/back01.gif"));
 		} catch (IOException e) {
 		    e.printStackTrace();
 		}
