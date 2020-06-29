@@ -16,7 +16,8 @@ public class Game {
 		
 		createPlayers();
 		addPlayer(this.dealer);
-		gameLoop();
+		initTable();
+//		gameLoop();
 	}
 	
 ////////////////////////////////////////////////////////////////////////////
@@ -198,6 +199,12 @@ public class Game {
 			clearPLayer();
 		}
 		scan.close();
+	}
+	
+///////////////////////////////////////////////////////////////////////////
+	
+	public ArrayList<Players> getPlayers() {
+		return this.players;
 	}
 	
 	public static void main(String[] args) {

@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -15,55 +16,44 @@ import java.awt.event.ActionEvent;
 
 public class PlayerPanel extends JPanel {
 	private JButton hitButton, standButton, foldButton;
+	private JPanel buttonPanel, cardPanel, infoPanel;
+	private Players player;
 	/**
 	 * Create the panel. SIZE: 450x320
 	 */
 	public PlayerPanel(Players p) {
+		this.player = p;
+		
 		setLayout(new BorderLayout(0, 0));
 		
-		JPanel buttonPanel = new JPanel();
-		JPanel cardPanel = new CardPanel(p);		// TODO: new Class for card Panel
-		JPanel infoPanel = new JPanel();
+		buttonPanel = new JPanel();
+		cardPanel = new CardPanel(p);		// new Class for card Panel
+		infoPanel = new JPanel();
 		
-		infoPanel.add(new JLabel("Name: " + p.getName() + ", Balance: " + p.getCash() + "$, Score: " + p.getTotalPoints()), BorderLayout.NORTH);
+		hitButton = new JButton("(H)it");
+		standButton = new JButton("(S)tand");
+		foldButton = new JButton("(F)old");
 		
-		buttonPanel.setLayout(new GridLayout(1, 0, 0, 0));
-		add(buttonPanel, BorderLayout.SOUTH);
-		add(infoPanel, BorderLayout.NORTH);
-		add(cardPanel, BorderLayout.CENTER);
-		
-
-	    buttonPanel.setBorder(BorderFactory.createTitledBorder("Options"));
-	    cardPanel.setBorder(BorderFactory.createTitledBorder("Cards"));
-	    infoPanel.setBorder(BorderFactory.createTitledBorder("Player"));
-	    		  
-	    
-		this.hitButton = new JButton("(H)it");
-		this.standButton = new JButton("(S)tand");
-		this.foldButton = new JButton("(F)old");
-		
-		this.hitButton.addActionListener(new ActionListener() {
+		hitButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("HIT");
 				// TODO: add Hit action
 			}
 		});
-		this.standButton.addActionListener(new ActionListener() {
+		standButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("STAND");
 				// TODO: add Stand action
 			}
 		});
-		this.foldButton.addActionListener(new ActionListener() {
+		foldButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("FOLD");
 				// TODO: add Fold action
 			}
 		});
 		
-		buttonPanel.add(foldButton);
-		buttonPanel.add(hitButton);
-		buttonPanel.add(standButton);
+		draw();
 	}
 	
 	/**
@@ -75,5 +65,29 @@ public class PlayerPanel extends JPanel {
 		hitButton.setEnabled(b);
 		foldButton.setEnabled(b);
 		standButton.setEnabled(b);
+	}
+	
+	public void draw() {
+		infoPanel.add(new JLabel("Name: " + this.player.getName() + 
+								 ", Balance: " + this.player.getCash() + 
+								 "$, Score: " + this.player.getTotalPoints()), BorderLayout.NORTH);		  
+	    
+		buttonPanel.setLayout(new GridLayout(1, 0, 0, 0));
+		add(buttonPanel, BorderLayout.SOUTH);
+		add(infoPanel, BorderLayout.NORTH);
+		add(cardPanel, BorderLayout.CENTER);
+		
+		TitledBorder cardBorder = BorderFactory.createTitledBorder("Cards");
+		cardBorder.setTitleColor(Color.WHITE);
+		
+	    cardPanel.setBorder(cardBorder);
+	    infoPanel.setBorder(BorderFactory.createTitledBorder("Player"));
+	    
+	    if (this.player instanceof Player) {
+		    buttonPanel.setBorder(BorderFactory.createTitledBorder("Options"));
+			buttonPanel.add(foldButton);
+			buttonPanel.add(hitButton);
+			buttonPanel.add(standButton);
+	    }
 	}
 }

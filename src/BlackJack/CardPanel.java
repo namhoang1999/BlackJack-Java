@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 
 import BlackJack.Deck.Rank;
 import BlackJack.Deck.Suit;
+
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -24,18 +26,8 @@ public class CardPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public CardPanel(Players p) {
-//		hand.add(new Card(Suit.CLUB, Rank.ACE, true));
-//		hand.add(new Card(Suit.CLUB, Rank.ACE, true));
-//		hand.add(new Card(Suit.CLUB, Rank.ACE, true));
-//		hand.add(new Card(Suit.CLUB, Rank.ACE, false));
-//		hand.add(new Card(Suit.CLUB, Rank.ACE, true));
-//		hand.add(new Card(Suit.CLUB, Rank.ACE, true));
-//		hand.add(new Card(Suit.CLUB, Rank.ACE, false));
-//		hand.add(new Card(Suit.CLUB, Rank.ACE, true));
-//		hand.add(new Card(Suit.CLUB, Rank.ACE, false));
-//		hand.add(new Card(Suit.CLUB, Rank.ACE, true));
-//		hand.add(new Card(Suit.CLUB, Rank.ACE, true));
 		this.hand = p.getHand();
+		setBackground(new Color(9, 74, 50));
 		
 		int width = CARD_WIDTH*hand.size()/3;
 		setSize(width, CARD_HEIGHT + 50);
