@@ -132,7 +132,8 @@ public class Game {
 	 * @param p player to play
 	 */
 	public void playerOptions(Player p) {
-		while (p.getTotalPoints() <= 21) {
+		int count = p.hand_.size();
+		while (p.getTotalPoints() <= 21 && count <= 5) {
 			System.out.println(p.getName() + "Choose your option: (H)it, (S)tand or (F)old?");
 			String option = (scan.nextLine()).toLowerCase();
 			System.out.println("Option chosen: " + option);
@@ -208,11 +209,7 @@ public class Game {
 	}
 	
 	public static void main(String[] args) {
-		Players[] addPlayers = new Players[4];
-//		Player p1 = new Player("Alice ", 1000);
-//		Player p2 = new Player("Bob   ", 1000);
-//		Player p3 = new Player("Eve   ", 1000);
-//		Player p4 = new Player("George", 1000);
+
 		Game g = new Game();
 	}
 }
