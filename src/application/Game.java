@@ -8,6 +8,7 @@ public class Game {
 	private ArrayList<Players> players = new ArrayList<Players>(); // 4 players and 1 dealer
 	private Dealer dealer;
 	private Scanner scan;
+	private int turn;
 	
 	public Game() {
 		this.scan = new Scanner(System.in);
@@ -15,7 +16,6 @@ public class Game {
 		this.dealer = new Dealer(d);
 		
 		createPlayers();
-		addPlayer(this.dealer);
 		initTable();
 //		gameLoop();
 	}
@@ -44,6 +44,13 @@ public class Game {
 	 */
 	public int playerSize() {
 		return players.size();
+	}
+	
+	/**
+	 * Increase turn by 1
+	 */
+	public void nextTurn() {
+		this.turn = (this.turn+1)%playerSize();
 	}
 	
 	/**
@@ -84,6 +91,8 @@ public class Game {
 		for (Players p : this.players) {
 			if (p != null) System.out.println("Welcome " + p.getName());
 		}
+
+		addPlayer(this.dealer);
 	}
 	
 	/**
@@ -208,8 +217,17 @@ public class Game {
 		return this.players;
 	}
 	
+	public int getTurn() {
+		return this.turn;
+	}
+	
+	public Players getPlayerInTurn() {
+		return this.players.get(this.turn);
+	}
+	
 	public static void main(String[] args) {
 
 		Game g = new Game();
+		
 	}
 }

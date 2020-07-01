@@ -2,13 +2,18 @@ package application;
 	
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import application.Deck.Rank;
 import application.Deck.Suit;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -18,8 +23,13 @@ import javafx.scene.transform.Translate;
 
 
 public class Main extends Application {
-	private final int WIDTH = 1362;
-	private final int HEIGHT = 898;
+	public static final int WIDTH = 1362;
+	public static final int HEIGHT = 898;
+	private PlayerPanel playerPane;
+	private TablePanel tablePane;
+	private BorderPane root;
+	private Scene scene;
+	private Game g;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -28,42 +38,28 @@ public class Main extends Application {
 			// take Players ArrayList
 			// loop through and create playerPanels
 			
-//			Game g = new Game();
-			BorderPane root = new BorderPane();
-			Scene scene = new Scene(root,WIDTH,HEIGHT);
+			g = new Game();
+			root = new BorderPane();
+			scene = new Scene(root,WIDTH,HEIGHT);
+			tablePane = new TablePanel(g);		// Player panels for 6 players and 1 dealer
 			
-			Dealer d = new Dealer(new Deck());
-			d.deal(d, true);
-			d.deal(d, false);
-			PlayerPanel dealerPane = new PlayerPanel(d);
-			
-			// Player panels for 6 players and 1 dealer
-			PlayerPanel pPanel1 = new PlayerPanel(new Player("Player 1",1000));
-			PlayerPanel pPanel2 = new PlayerPanel(new Player("Player 2",1000));
-			PlayerPanel pPanel3 = new PlayerPanel(new Player("Player 3",1000));
-			PlayerPanel pPanel4 = new PlayerPanel(new Player("Player 4",1000));
-			PlayerPanel pPanel5 = new PlayerPanel(new Player("Player 5",1000));
-			PlayerPanel pPanel6 = new PlayerPanel(new Player("Player 6",1000));
-			TablePanel tPanel = new TablePanel();
-
-			// Transformation setup
-			dealerPane.getTransforms().add(Transform.translate((WIDTH-300)/2, (HEIGHT-250)/2));
-			pPanel1.getTransforms().add(Transform.translate(0, 0));
-			pPanel2.getTransforms().add(Transform.translate((WIDTH-300)/2, 0));
-			pPanel3.getTransforms().add(Transform.translate(WIDTH-300, 0));
-			pPanel4.getTransforms().add(Transform.translate(0, HEIGHT-250));
-			pPanel5.getTransforms().add(Transform.translate((WIDTH-300)/2, HEIGHT-250));
-			pPanel6.getTransforms().add(Transform.translate(WIDTH-300, HEIGHT-250));
-			
+//	///////////////////////////////////////////////////////////////
+//			Button b = new Button("Test");
+//			b.getTransforms().add(Transform.translate(200, 200));
+//			b.setOnAction(new EventHandler<ActionEvent>() {  
+//	            
+//	            @Override  
+//	            public void handle(ActionEvent arg0) {  
+//	            	// TODO: add event handler
+//	            	g.removePlayer(g.getPlayers().get(0));
+//	    			tablePane.draw(g);
+//	            }  
+//	        } );
+//			tablePane.getChildren().add(b);
+//	///////////////////////////////////////////////////////////////
+					
 			// Add elements to scene graph
-			root.getChildren().add(tPanel);
-			root.getChildren().add(dealerPane);
-			root.getChildren().add(pPanel1);
-			root.getChildren().add(pPanel2);
-			root.getChildren().add(pPanel3);
-			root.getChildren().add(pPanel4);
-			root.getChildren().add(pPanel5);
-			root.getChildren().add(pPanel6);
+			root.getChildren().add(tablePane);
 			
 			primaryStage.setScene(scene);
 			primaryStage.show();

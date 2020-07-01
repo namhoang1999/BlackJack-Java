@@ -16,19 +16,28 @@ public class HandPanel extends Pane {
 	public HandPanel(Players p) {
 		this.player = p;
 		this.setPrefSize(width,height);
-		
-		// Rectangle (for background) TODO: find a better way
-		Rectangle rect=new Rectangle();
+		draw();
+	}
+	
+	// Rectangle (for background) TODO: find a better way
+	/**
+	 * Draw background to GUI
+	 */
+	public void drawBackGround() {
+		Rectangle rect = new Rectangle();
 	    rect.setX(0);   
 	    rect.setY(0);   
 	    rect.setWidth(width);    
 	    rect.setHeight(height);
 	    rect.setFill(Color.DARKGREEN);
-	 
+
 	    getChildren().addAll(rect);  
 	}
-	
-	public void update() {
+
+	/**
+	 * Draw cards to GUI
+	 */
+	public void drawCards() {
 		hand = this.player.getHand();
 		
 		for (int i = 0; i < this.hand.size(); i++) {
@@ -38,7 +47,14 @@ public class HandPanel extends Pane {
 		}
 	}
 	
-	public void displayCard() {
+	/**
+	 * Draw GUI
+	 */
+	public void draw() {
+		getChildren().clear();
 		
+		drawBackGround();
+		drawCards();
 	}
+	
 }

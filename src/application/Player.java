@@ -4,25 +4,31 @@ public class Player extends Players{
 
 	private int bet_ ;
 	private boolean f_;
+	
 	public Player(String name, int cash) {
 		super(name, cash);
 	}
+
 	public void fold() {
-		super.cash_ += bet_/2;
+		calcReward(3);
 	}
+	
 	public void bet(int b) {
 		this.bet_ = b;
 		super.cash_ -= bet_;
 	}
+	
 	public int getBet() {
 		if(this.bet_ > this.cash_) this.cash_ = 0;
 		return this.bet_;
 	}
+	
 	public void addCash(int c) {
 		super.cash_ += c;
 	}
+	
 	/**
-	 * result = 0: lose ; 
+	 * 0: Lose ; 
 	 * 1: Win ( normal win without BlackJack ); 
 	 * 2: Draw; 
 	 * 3: Folded; 
@@ -34,12 +40,12 @@ public class Player extends Players{
 	 */
 	public void calcReward(int result) {
 		if (result == 1) addCash(getBet()*2); 
-		if (result == 2) setCash(getCash() + getBet());
-		if (result == 3) setCash(getCash() + getBet()/2);
-		if (result == 4) setCash(getCash() + getBet()*3);
-		if (result == 5) setCash(getCash() + getBet()*5/2);
-		if (result == 6) setCash(getCash() - getBet()*3/2);
-		if (result == 7) setCash(getCash() - getBet());
+		if (result == 2) addCash(getBet());
+		if (result == 3) addCash(getBet()/2);
+		if (result == 4) addCash(getBet()*3);
+		if (result == 5) addCash(getBet()*5/2);
+		if (result == 6) addCash(-getBet()*3/2);
+		if (result == 7) addCash(-getBet());
 	}
 
 	public void isWinner(Dealer d) {
