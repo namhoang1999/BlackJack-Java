@@ -18,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 
@@ -30,6 +31,20 @@ public class Main extends Application {
 	private BorderPane root;
 	private Scene scene;
 	private Game g;
+	private WaitingRoomPanel wrp;
+	
+	public void switchPane (boolean b) {
+		if(b) {
+			//tablePane.toBack();
+			tablePane.setVisible(!b);
+			wrp.setVisible(b);
+		}
+		else {
+			//wrp.toBack();
+			tablePane.setVisible(!b);
+			wrp.setVisible(b);
+		}
+	}
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -37,11 +52,21 @@ public class Main extends Application {
 			// TODO: integrate Game into this
 			// take Players ArrayList
 			// loop through and create playerPanels
-			
+			StackPane sp = new StackPane();
+			sp.getTransforms().add(Transform.translate(0, 0));
 			g = new Game();
 			root = new BorderPane();
 			scene = new Scene(root,WIDTH,HEIGHT);
 			tablePane = new TablePanel(g);		// Player panels for 6 players and 1 dealer
+			//WaitingPlayerPane wpp = new WaitingPlayerPane(new Player("Namm", 1000));
+			wrp = new WaitingRoomPanel();
+			wrp.addPlayer(new Player("Nam",1000));
+			wrp.addPlayer(new Player("Nam",1000));
+			wrp.addPlayer(new Player("Nam",1000));
+			sp.getChildren().add(tablePane);
+			sp.getChildren().add(wrp);
+	
+			switchPane(true);
 			
 //	///////////////////////////////////////////////////////////////
 //			Button b = new Button("Test");
@@ -59,8 +84,8 @@ public class Main extends Application {
 //	///////////////////////////////////////////////////////////////
 					
 			// Add elements to scene graph
-			root.getChildren().add(tablePane);
-			
+			root.getChildren().add(sp);
+			//root.getChildren().add(tablePane);
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {

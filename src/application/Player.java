@@ -4,13 +4,14 @@ public class Player extends Players{
 
 	private int bet_ ;
 	private boolean f_;
+	private int result;
 	
 	public Player(String name, int cash) {
 		super(name, cash);
 	}
 
 	public void fold() {
-		calcReward(3);
+		
 	}
 	
 	public void bet(int b) {
@@ -38,14 +39,14 @@ public class Player extends Players{
 	 * 7: Dealer has less than 5 cards and dealerPoints = 21;
 	 * @param result
 	 */
-	public void calcReward(int result) {
-		if (result == 1) addCash(getBet()*2); 
-		if (result == 2) addCash(getBet());
-		if (result == 3) addCash(getBet()/2);
-		if (result == 4) addCash(getBet()*3);
-		if (result == 5) addCash(getBet()*5/2);
-		if (result == 6) addCash(-getBet()*3/2);
-		if (result == 7) addCash(-getBet());
+	public void calcReward() {
+		if (this.result == 1) addCash(getBet()*2); 
+		if (this.result == 2) addCash(getBet());
+		if (this.result == 3) addCash(getBet()/2);
+		if (this.result == 4) addCash(getBet()*3);
+		if (this.result == 5) addCash(getBet()*5/2);
+		if (this.result == 6) addCash(-getBet()*3/2);
+		if (this.result == 7) addCash(-getBet());
 	}
 
 	public void isWinner(Dealer d) {
@@ -109,6 +110,6 @@ public class Player extends Players{
 				}
 			}
 
-		calcReward(result);
+		//calcReward(result);
 	}
 }

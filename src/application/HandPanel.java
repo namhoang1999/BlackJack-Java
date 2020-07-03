@@ -52,8 +52,8 @@ public class HandPanel extends Pane {
 	 */
 	public void draw() {
 		getChildren().clear();
-		
-		drawBackGround();
+		setStyle("-fx-background-color: cyan");
+		//drawBackGround();
 		drawCards();
 	}
 	
