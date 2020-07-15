@@ -3,7 +3,7 @@ package src.main.java.de.uni_hannover.hci.BlackJack.SerializableData;
 import java.io.Serializable;
 
 public class Player extends Players implements Serializable{
-
+	private int move;
 	private int bet_ ;
 	private boolean f_;
 	private int result;
@@ -29,7 +29,9 @@ public class Player extends Players implements Serializable{
 	public void addCash(int c) {
 		super.cash_ += c;
 	}
-	
+	public void setMove(int i) {
+		this.move = i;
+	}
 	/**
 	 * 0: Lose ; 
 	 * 1: Win ( normal win without BlackJack ); 

@@ -27,11 +27,12 @@ public class GUI{
 //	private Scene scene;
 	// Server-Thread ID
 	private int id;
+	private int move;
 	private TablePanel tp;
 	// Constructor
 	public GUI(int id){
 		this.id = id;
-		tp = new TablePanel();
+		//tp = new TablePanel();
 	}
 
 	/**
@@ -113,6 +114,7 @@ public class GUI{
 	 */
 	public String getMove(){
 		String move = null;
+		
 		Scanner sc = new Scanner(System.in);
 		while(true){
 			System.out.print("\nEnter \"hit\", \"stand\" or \"fold\": ");

@@ -12,15 +12,15 @@ public class ServerTest {
     public static void main(String[] args) {
         
         // exit if wrong numbers of parameters
-        if(args.length != 2){
-            System.out.println("Client was executed with wrong number of parameters.");
-            System.exit(0);
-        }   
+//        if(args.length != 2){
+//            System.out.println("Client was executed with wrong number of parameters.");
+//            System.exit(0);
+//        }   
 
         // Server port
-        int port = Integer.parseInt(args[0]);
+        int port = 6666;
         // max number of players
-        int maxClients = Integer.parseInt(args[1]);
+        int maxClients = 2;
 
         // Starting Server
         Server server = new Server();

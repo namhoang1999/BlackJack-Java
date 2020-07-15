@@ -17,15 +17,15 @@ public class ClientTest {
     public static void main(String[] args)  throws IOException, ClassNotFoundException, InterruptedException{
         
         // exit if wrong numbers of parameters
-        if(args.length != 2){
-            System.out.println("Client was executed with wrong number of parameters.");
-            System.exit(0);
-        }
+//        if(args.length != 2){
+//            System.out.println("Client was executed with wrong number of parameters.");
+//            System.exit(0);
+//        }
 
         // Server ip
-        String ip = args[0];
+        String ip = "192.168.100.6";
         // Server port
-        int port = Integer.parseInt(args[1]);
+        int port = 6666;
 
         // Starting new Client
         Client client = new Client(ip, port);

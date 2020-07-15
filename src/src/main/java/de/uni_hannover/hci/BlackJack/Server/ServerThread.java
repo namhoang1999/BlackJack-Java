@@ -115,11 +115,11 @@ public class ServerThread extends Thread {
         ready = false;
 
         // ArrayList to extract the players from the ServerThreadArray
-        ArrayList<Players> players = new ArrayList<Players>();
+        ArrayList<Player> players = new ArrayList<Player>();
         for (int i = 0; i < threads.size(); i++) {
             players.add((Player) threads.get(i).getPlayer());
         }
-        players.add(dealer);
+
         // sends request to receive GameState
         OutputStream output = socket.getOutputStream();
         PrintWriter writer = new PrintWriter(output, true);
@@ -127,50 +127,43 @@ public class ServerThread extends Thread {
         writer.flush();
 
         // waits for confirmation
-//        do {
-//            InputStream input = socket.getInputStream();
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-//            String clientInput = reader.readLine();
-//            if(clientInput.equals("readyToReceivePlayers")){
-//                break;
-//            }
-//        } while (true);
-//
-//        // sends players
-//        ObjectOutputStream objectOutput = new ObjectOutputStream(socket.getOutputStream());
-//        objectOutput.writeObject(players);
-//
-//        // waits for confirmation
-//        do {
-//            InputStream input = socket.getInputStream();
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-//            String clientInput = reader.readLine();
-//            if(clientInput.equals("readyToReceiveDealer")){
-//                break;
-//            }
-//        } while (true);
-//
-//        // sends Dealer
-//        objectOutput = new ObjectOutputStream(socket.getOutputStream());
-//        objectOutput.writeObject(dealer);
-//
-//        // waits for confirmation
-//        do {
-//            InputStream input = socket.getInputStream();
-//            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-//            String clientInput = reader.readLine();
-//            if(clientInput.equals("complete")){
-//                break;
-//            }
-//        } while (true);
         do {
-          InputStream input = socket.getInputStream();
-          BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-          String clientInput = reader.readLine();
-          if(clientInput.equals("complete")){
-              break;
-          }
-      } while (true);
+            InputStream input = socket.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+            String clientInput = reader.readLine();
+            if(clientInput.equals("readyToReceivePlayers")){
+                break;
+            }
+        } while (true);
+
+        // sends players
+        ObjectOutputStream objectOutput = new ObjectOutputStream(socket.getOutputStream());
+        objectOutput.writeObject(players);
+
+        // waits for confirmation
+        do {
+            InputStream input = socket.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+            String clientInput = reader.readLine();
+            if(clientInput.equals("readyToReceiveDealer")){
+                break;
+            }
+        } while (true);
+
+        // sends Dealer
+        objectOutput = new ObjectOutputStream(socket.getOutputStream());
+        objectOutput.writeObject(dealer);
+
+        // waits for confirmation
+        do {
+            InputStream input = socket.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+            String clientInput = reader.readLine();
+            if(clientInput.equals("complete")){
+                break;
+            }
+        } while (true);
+
         // lets the other Threads know it is ready
         ready = true;
     }
@@ -229,21 +222,7 @@ public class ServerThread extends Thread {
         PrintWriter writer = new PrintWriter(output, true);
         writer.println("sendBet");
         writer.flush();
-
-        // waits for confirmation
-        do {
-            InputStream input = socket.getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-            String clientInput = reader.readLine();
-            if(clientInput.equals("readyToReceiveCash")){
-                break;
-            }
-        } while (true);
         
-        // sends cash
-        ObjectOutputStream objectOutput= new ObjectOutputStream(socket.getOutputStream());
-        objectOutput.writeObject(this.player.getCash()); 
-
         // tmp Integer to store bet
         Integer tmpbet = null;
 

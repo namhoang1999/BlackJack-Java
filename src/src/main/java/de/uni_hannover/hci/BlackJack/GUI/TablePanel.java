@@ -10,6 +10,7 @@ import javafx.scene.transform.Transform;
 import src.main.java.de.uni_hannover.hci.BlackJack.Client.Client;
 import src.main.java.de.uni_hannover.hci.BlackJack.GameLogic.Game;
 import src.main.java.de.uni_hannover.hci.BlackJack.SerializableData.Dealer;
+import src.main.java.de.uni_hannover.hci.BlackJack.SerializableData.Deck;
 import src.main.java.de.uni_hannover.hci.BlackJack.SerializableData.Player;
 import src.main.java.de.uni_hannover.hci.BlackJack.SerializableData.Players;
 import src.main.java.de.uni_hannover.hci.BlackJack.Server.ServerThread;
@@ -29,7 +30,9 @@ public class TablePanel extends Pane {
 		Image image = new Image(file.toURI().toString());
 	    iv = new ImageView(image);
 	    setPrefSize(WIDTH, HEIGHT);
-	    draw(new ArrayList<Players>());
+	    players = new ArrayList<Players>();
+//	    players.add(new Dealer(new Deck()));
+	    draw(players);
 	}
 	
 	public int getMove() {
@@ -48,29 +51,32 @@ public class TablePanel extends Pane {
 		getChildren().clear();			// clear everything first
 	    
 		// and start reconstructing all component from the start
-		getChildren().add(iv);		
-	    for (int i = 0; i < threads.size(); i++) {
-	    	Players p = threads.get(i).getPlayer();
-	    	if (p != null) {
-			    if (p instanceof Dealer) {						// Dealer
-					playerPane = new PlayerPanel((Dealer)p);
-				
-					t = Transform.translate((WIDTH-300)/2, (HEIGHT-250)/2);
-				} else {															// Player
-					playerPane = new PlayerPanel((Player)p);
-				    
-					if (i == 0) t = Transform.translate(0, 0);
-					if (i == 1) t = Transform.translate((WIDTH-300)/2, 0);
-					if (i == 2) t = Transform.translate(WIDTH-300, 0);
-					if (i == 3) t = Transform.translate(0, HEIGHT-250);
-					if (i == 4) t = Transform.translate((WIDTH-300)/2, HEIGHT-250);
-					if (i == 5) t = Transform.translate(WIDTH-300, HEIGHT-250);
-				}
-	    	}
-	    	players.add(p);
-			playerPane.getTransforms().add(t);
-			getChildren().add(playerPane);
-	    }
+		getChildren().add(iv);
+		if(threads.size() > 0) {
+			for (int i = 0; i <= threads.size(); i++) {
+		    	Players p = threads.get(i).getPlayer();
+		    	if (p != null) {
+				    if (p instanceof Dealer) {						// Dealer
+						playerPane = new PlayerPanel((Dealer)p);
+					
+						t = Transform.translate((WIDTH-300)/2, (HEIGHT-250)/2);
+					} else {															// Player
+						playerPane = new PlayerPanel((Player)p);
+					    
+						if (i == 0) t = Transform.translate(0, 0);
+						if (i == 1) t = Transform.translate((WIDTH-300)/2, 0);
+						if (i == 2) t = Transform.translate(WIDTH-300, 0);
+						if (i == 3) t = Transform.translate(0, HEIGHT-250);
+						if (i == 4) t = Transform.translate((WIDTH-300)/2, HEIGHT-250);
+						if (i == 5) t = Transform.translate(WIDTH-300, HEIGHT-250);
+					}
+		    	}
+		    	players.add(p);
+				playerPane.getTransforms().add(t);
+				getChildren().add(playerPane);
+		    }
+		}
+	    
 	}
 	
 	

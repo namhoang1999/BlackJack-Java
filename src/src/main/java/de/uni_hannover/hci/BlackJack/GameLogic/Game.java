@@ -14,7 +14,7 @@ import src.main.java.de.uni_hannover.hci.BlackJack.Server.ServerThread;
  * @version 2020.07.05
  */
 public class Game {
-
+	
 	// ArrayList of ServerThreads that are connected to Players
 	private ArrayList<ServerThread> threads = new ArrayList<ServerThread>();
 

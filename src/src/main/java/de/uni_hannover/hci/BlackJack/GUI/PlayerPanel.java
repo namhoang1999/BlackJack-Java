@@ -68,7 +68,21 @@ public class PlayerPanel extends Pane{
 		
 		// Button event handlers
 		////////////////////////////////////////////////////////////////////////
-		
+		FButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                playerFold();
+            }
+        });
+		HButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                playerHit();
+            }
+        });
+		SButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+            	playerStand();
+            }
+        });
 		// Hbox for array of buttons
 		hBox.setPrefWidth(100);
 		
