@@ -14,20 +14,45 @@ import java.io.*;
  * @author  Jean-Carl Kremser
  * @version 2020.06.29
  */
-public class Client {
+public class Client extends Thread {
 
     // Server Information
     private Socket socket;
     private int id;
 
-    // GUI
-    private GUI gui;
+    private String ip;
+    private int port;
+
+
+/*                                          IMPORTANT                                        */
+/*###########################################################################################*/
 
     // boolean to let the Client know it is supposed to stop
-    private boolean exit;
+    public boolean exit;
+
+    // Important Variables for GUI-People 
+    public ArrayList<Player> players;
+    public Dealer dealer;
+    public String result;
+
+    public boolean printGameState;
+    public boolean printGameResult;
+    public boolean getPlayerName;
+    public boolean getPlayerBet;
+    public boolean getPlayerMove;
+
+/*###########################################################################################*/    
 
     // Default-Constructor
-    public Client(){
+    public Client(String ip, int port){
+        this.ip = ip;
+        this.port = port;
+        
+        printGameState = false;
+        printGameResult = false;
+        getPlayerName = false;
+        getPlayerBet = false;
+        getPlayerMove = false;
     }
     
     /**
@@ -38,10 +63,11 @@ public class Client {
      * @author      Jean-Carl Kremser
      * @version     2020.07.05
      */
-    public void startClient(String ip, int port) {
+    @Override
+    public void run() {
 
         // Tries to connect with Server socket
-        try (Socket socket = new Socket(ip, port)){
+        try (Socket socket = new Socket(this.ip, this.port)){
             this.socket = socket;
 
             // sends handshake
@@ -63,14 +89,9 @@ public class Client {
                 System.exit(0);
             }
 
-
-
             // sets and prints Thread ID (for debug purposes)
             this.id = receiveID();
             System.out.println("My ID is " + this.id + ".");
-
-            // creates new GUI
-            this.gui = new GUI(this.id);
 
             exit = false;
 
@@ -86,25 +107,50 @@ public class Client {
                 if (serverInput.equals("receiveGameState")){
                     receiveGameState();
                     serverInput = null;
+
+                    /*
+                    receiveGameState();
+                    serverInput = null;
+                    */
                 }
                 else if(serverInput.equals("receiveGameResult")){
                     receiveGameResult();
                     serverInput = null;
+                    
+                    /*
+                    receiveGameResult();
+                    serverInput = null;
+                    */
                 }
                 // Instruction for sending the Bet
                 else if(serverInput.equals("sendBet")){
+                    this.getPlayerBet = true;
+                    serverInput = null;
+                    
+                    /*
                     sendBet();
                     serverInput = null;
+                    */
                 }
                 // Instruction to send the next Move
                 else if(serverInput.equals("sendMove")){
+                    this.getPlayerMove = true;
+                    serverInput = null;
+                    
+                    /*
                     sendMove();
                     serverInput = null;
+                    */
                 }
                 // Instruction to send the Name
                 else if(serverInput.equals("sendName")){
+                    this.getPlayerName = true;
+                    serverInput = null;
+
+                    /*
                     sendName();
                     serverInput = null;
+                    */
                 }
                 // Instruction to disconnect from the Server
                 else if(serverInput.equals("exit")){
@@ -122,7 +168,7 @@ public class Client {
     
 
     // This Method sends a given Handshake to the connected Server
-    private void sendHandshake(String clientHandshake) throws IOException {
+    public void sendHandshake(String clientHandshake) throws IOException {
         OutputStream output = socket.getOutputStream();
         PrintWriter writer = new PrintWriter(output, true);
         writer.println(clientHandshake);
@@ -131,7 +177,7 @@ public class Client {
 
     // This Method receives a Handshake from the Server and compares it with the expected handshake
     // @return boolean stating if the Server-Handshake matches the expected Handshake
-    private boolean receiveHandshake(String serverHandshake) throws IOException {
+    public boolean receiveHandshake(String serverHandshake) throws IOException {
         String handshake;
         do {
             InputStream input = socket.getInputStream();
@@ -154,7 +200,7 @@ public class Client {
 
     // This Method receives an id from the Server, to better identify each Client
     // @return int representing the Players ID
-    private int receiveID() throws IOException, ClassNotFoundException{
+    public int receiveID() throws IOException, ClassNotFoundException{
         do {
             ObjectInputStream objectIn = new ObjectInputStream(socket.getInputStream());
             Integer id = (Integer)objectIn.readObject();
@@ -166,52 +212,49 @@ public class Client {
 
 
     // This Methods requests the GUI to ask for the Players name and sends it to the Server Thread
-    private void sendName() throws IOException, ClassNotFoundException{
+    // name can be a random string 
+    public void sendName(String name) throws IOException, ClassNotFoundException{
+        getPlayerName = false;
+
         OutputStream output = socket.getOutputStream();
         PrintWriter writer = new PrintWriter(output, true);
-        writer.println(gui.getName());    
+        writer.println(name);    
     }
 
 
     // This Method requests the GUI to ask for the Players bet and send it to the Server Thread.
-    private void sendBet() throws IOException, ClassNotFoundException{
+    // bet can be a any Integer but please check in the controller or the gui that the player can't
+    // enter a bet higher than his cash and no negative bets.
+    public void sendBet(Integer playerBet) throws IOException, ClassNotFoundException{
+        getPlayerBet = false;
+        
         Integer cash = null;
         
         // Stuff needed to send messages to the Server-Thread
         OutputStream output = socket.getOutputStream();
         PrintWriter writer = new PrintWriter(output, true);
-        writer.println("readyToReceiveCash");
-
-        // receives Players cash to check whether the bet is valid
-        do {
-            ObjectInputStream objectIn = new ObjectInputStream(socket.getInputStream());
-            cash = (Integer)objectIn.readObject();
-            if(cash == 0){
-                // Player has no cash (should never happen, but just in case)
-                // System.out.println("Player has no cash");
-            }
-        } while (cash == null);
-
-        // gets bet from GUI
-        Integer bet = gui.getBet(cash);
 
         // sends bet
         ObjectOutputStream objectOutput = new ObjectOutputStream(socket.getOutputStream());
-        objectOutput.writeObject(bet);
+        objectOutput.writeObject(playerBet);
 
     }
 
 
     // This methods request the GUI to get the Players next move and sends it to the Server-Thread
-    private void sendMove() throws IOException{
+    // move has to be "hit" "stand" or "fold" any other String will probably break the Programm 
+    // but i have no time to fool proof this
+    public void sendMove(String move) throws IOException{
+        getPlayerMove = false;
+        
         OutputStream output = socket.getOutputStream();
         PrintWriter writer = new PrintWriter(output, true);
-        writer.println(gui.getMove());
+        writer.println(move);
     }
 
 
     // This method receives the Game-State from the Server and orders the GUI to display it
-    private void receiveGameState() throws IOException, ClassNotFoundException{
+    public void receiveGameState() throws IOException, ClassNotFoundException{
         // where the Game-State is going to be stored
         ArrayList<Player> players;
         Dealer dealer;
@@ -249,8 +292,12 @@ public class Client {
         writer = new PrintWriter(output, true);
         writer.println("complete");
 
+        this.printGameState = true;
+        this.players = players;
+        this.dealer = dealer;
+
         // orders GUI to print the received Data
-        gui.printGameState(players, dealer);
+        //gui.printGameState(players, dealer);
     }
 
     // This method receives the Game-Result from the Server and orders the GUI to display it
@@ -271,27 +318,50 @@ public class Client {
                 // do nothing
             }
             else if(result.equals("win")){
+                this.result = "win";
+                printGameResult = true;
+                break;
+                /*
                 gui.printGameResult("win");
                 break;
+                */
             }
             else if(result.equals("lose")){
+                this.result = "lose";
+                printGameResult = true;
+                break;
+                /*
                 gui.printGameResult("lose");
                 break;
+                */
             }
             else if(result.equals("fold")){
+                this.result = "fold";
+                printGameResult = true;
+                break;
+                /*
                 gui.printGameResult("fold");
                 break;
+                */
             }
             else if(result.equals("draw")){
+                this.result = "draw";
+                printGameResult = true;
+                break;
+                /*
                 gui.printGameResult("draw");
                 break;
+                */
             }
         } while (true);
     }
 
     // this Method exits the Programm
-    private void exit(){
-        gui.exit();
+    public void exit(){
         exit = true;
+    }
+
+    public int getID(){
+        return id;
     }
 }
