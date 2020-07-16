@@ -5,6 +5,7 @@ import java.io.*;
 
 import src.main.java.de.uni_hannover.hci.BlackJack.Client.Client;
 import src.main.java.de.uni_hannover.hci.BlackJack.GUI.GUI;
+import src.main.java.de.uni_hannover.hci.BlackJack.GUI.MainGUI;
 
 /**
  * This class is used to start the Client, 
@@ -31,14 +32,14 @@ public class ClientTest {
         Client client = new Client(ip, port);
         client.start();
 
-        GUI gui = new GUI(client.getID());
+        MainGUI gui = new MainGUI();
 
         // This is probably what the controller is going to do
         while(!(client.exit)){
             Thread.sleep(20);
             if(client.printGameState == true){
                 client.printGameState = false;
-                gui.printGameState(client.players, client.dealer);
+                gui.drawGame(client.players, client.dealer);
             }
             if(client.printGameResult == true){
                 client.printGameResult = false;

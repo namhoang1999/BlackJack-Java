@@ -29,6 +29,9 @@ public class Player extends Players implements Serializable{
 	public void addCash(int c) {
 		super.cash_ += c;
 	}
+	public int getMove() {
+		return this.move;
+	}
 	public void setMove(int i) {
 		this.move = i;
 	}

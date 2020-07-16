@@ -20,7 +20,7 @@ public class Game {
 
 	// Dealer
 	private Dealer dealer;
-
+	
 	// turn?
 	private int turn;
 	

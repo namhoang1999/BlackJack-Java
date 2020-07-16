@@ -1,5 +1,7 @@
 package src.main.java.de.uni_hannover.hci.BlackJack.GUI;
 
+import java.util.ArrayList;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -70,17 +72,56 @@ public class PlayerPanel extends Pane{
 		////////////////////////////////////////////////////////////////////////
 		FButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                playerFold();
+            	ArrayList<Card> hand = player.getHand();
+            	int size = hand.size();
+            	int points = player.getTotalPoints();
+            	
+                if(player instanceof Player) {
+                	if(size < 5 && points < 21) {
+                		playerFold();
+                	}else {
+                    	FButton.setVisible(false);
+                    	HButton.setVisible(false);
+                    	SButton.setVisible(false);
+                    }
+                }
+                draw();
             }
         });
 		HButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                playerHit();
+            	ArrayList<Card> hand = player.getHand();
+            	int size = hand.size();
+            	int points = player.getTotalPoints();
+            	
+                if(player instanceof Player) {
+                	if(size < 5 && points < 21) {
+                		playerHit();
+                	}
+                }else {
+                	FButton.setVisible(false);
+                	HButton.setVisible(false);
+                	SButton.setVisible(false);
+                }
+                draw();
             }
         });
 		SButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-            	playerStand();
+            	ArrayList<Card> hand = player.getHand();
+            	int size = hand.size();
+            	int points = player.getTotalPoints();
+            	
+                if(player instanceof Player) {
+                	if(size < 5 && points < 21) {
+                		playerStand();
+                	}else {
+                		FButton.setVisible(false);
+                    	HButton.setVisible(false);
+                    	SButton.setVisible(false);
+                    }
+                }
+                draw();
             }
         });
 		// Hbox for array of buttons

@@ -35,6 +35,7 @@ public class TablePanel extends Pane {
 	    draw(players);
 	}
 	
+	
 	public int getMove() {
 		return this.playerPane.getMove();
 	}
